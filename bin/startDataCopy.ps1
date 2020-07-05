@@ -107,7 +107,7 @@ function Get-Folders {
     Write-Output ( "`nEs werden die Dateien fuer folgenden Benutzer kopiert:     " + $currentUser )
 
     # get folder items
-    $folders = Get-ChildItem C:\Users\$currentUser -dir | Where-Object { ($_.FullName -match "Documents") } 
+    $folders = Get-ChildItem C:\Users\$currentUser -dir # | Where-Object { ($_.FullName -match "Documents") } 
     $files = Get-ChildItem C:\Users\$currentUser -file
 
     # create folder in data-copy
