@@ -3,9 +3,9 @@ function Show-Welcome {
     # messages
     Write-Output "`n"
     Write-Output "==============================================="
-    Write-Output "=   Willkommen zur Programm zur Daten-Kopie   ="
-    Write-Output "=    -> Erstellt durch     Adrian Weiss       ="
-    Write-Output "=    -> Erstellt am        2020-07-03         ="
+    Write-Output "=            Create your data-copy            ="
+    Write-Output "=    -> Created by         Adrian Weiss       ="
+    Write-Output "=    -> Created on         2020-07-05         ="
     Write-Output "==============================================="
 
 }
@@ -18,12 +18,12 @@ function Show-Exit {
     # messages
     Write-Output "`n"
     Write-Output "==============================================="
-    Write-Output "=   Alle relevanten Dateien wurden kopiert!   ="
-    Write-Output "=    -> Durchgefuehrt am  $date ="
+    Write-Output "=       All necesary data were copied!        ="
+    Write-Output "=    -> Executed on  $date ="
     Write-Output "=                                             ="
-    Write-Output "=  --> Druecken Sie die ENTER-Taste, um  <--  ="
-    Write-Output "=  --> das Programm zu verlassen.        <--  ="
-    Write-Output "==============================================="
+    Write-Output "=  --> Press ENTER-Key to leave the      <--  ="
+    Write-Output "=  --> program.                          <--  ="
+    Write-Output "===============================================" 
 
     # Read Host
     Read-Host
@@ -56,8 +56,8 @@ function Get-InstalledSoftware {
 
         # get installes software
         $installedSoftware += Get-ChildItem -Path $path | 
-                                Get-ItemProperty | 
-                                    Select-Object DisplayName, DisplayVersion, Publisher 
+        Get-ItemProperty | 
+        Select-Object DisplayName, DisplayVersion, Publisher 
 
     }
 
@@ -65,7 +65,7 @@ function Get-InstalledSoftware {
     Write-Output "    -> Found installed software: $($installedSoftware.Length)"
 
     # save installed software in file
-    $installedSoftware | ForEach-Object {[PSCustomObject]$_} | Format-Table -AutoSize | Out-File -FilePath "..\programs\$foldername\InstalledSoftware.txt"
+    $installedSoftware | ForEach-Object { [PSCustomObject]$_ } | Format-Table -AutoSize | Out-File -FilePath "..\programs\$foldername\InstalledSoftware.txt"
 
     # message
     Write-Output "    -> Saved installed software in 'InstalledSoftware.txt"
@@ -86,10 +86,14 @@ function Set-Folder {
     New-Item -Path "..\\programs" -Name $Foldername -ItemType Directory | Out-Null
     New-Item -Path "..\\log-files" -Name $Foldername -ItemType Directory | Out-Null
 
+    # create logfile
+    New-Item -Path "..\\log-files\$Foldername" -Name "robocopyLog.log" -ItemType File | Out-Null
+
     # message
     Write-Output "   -> created folder \\datacopy\$Foldername\"
     Write-Output "   -> created folder \\programs\$Foldername\"
     Write-Output "   -> created folder \\log-files\$Foldername\"
+    Write-Output "   -> created file 'robocopyLog.log'"
 
     # return folder name
     return $Foldername.FullName
@@ -104,10 +108,10 @@ function Get-Folders {
     $folderName = (( Get-Date -Format "yyyyMMdd_HHmmss") + "_user__" + $currentUser )
     
     # message
-    Write-Output ( "`nEs werden die Dateien fuer folgenden Benutzer kopiert:     " + $currentUser )
+    Write-Output "`nThe files are copied for this following user -> $currentUser"
 
     # get folder items
-    $folders = Get-ChildItem C:\Users\$currentUser -dir # | Where-Object { ($_.FullName -match "Documents") } 
+    $folders = Get-ChildItem C:\Users\$currentUser -dir
     $files = Get-ChildItem C:\Users\$currentUser -file
 
     # create folder in data-copy
@@ -116,8 +120,6 @@ function Get-Folders {
     # message
     Write-Output "`nCopy folders of user directory"
     Write-Output "    -> Start copying $($folders.Length) folders"
-
-    Write-Host $folders
 
     # process folders
     foreach ($folder in $folders) {
@@ -129,7 +131,7 @@ function Get-Folders {
         Write-Progress -Activity "Copying files" -PercentComplete $percentage -CurrentOperation "Copy file $($folder.FullName)"
 
         # copy folder to target folder
-        robocopy $folder.Fullname "..\data-copy\$folderName\$folder" /MIR /R:0 /W:0 /NFL /LOG:"..\log-files\$folderName\$folder\robocopyLog.log"
+        robocopy $folder.Fullname "..\data-copy\$folderName\$folder" /MIR /R:0 /W:0 /NFL /LOG:"..\log-files\$folderName\robocopyLog.log"
 
     }
 
