@@ -10,14 +10,14 @@ Copy all data into (including the structure) to the target drive/folder.
 Do not store and execute this programm in any user-folder. It will create a recursive copying causing a big mess.
 
 **Following structure is needed** <br />
-<code>
-root <br />
-+-- /bin <br />
-+---- code.ico <br />
-+---- startDataCopy.bat <br />
-+---- startDataCopy.ps1 <br />
-+-- Start.lnk <br />
-</code>
+```
+root   
++-- /bin   
++---- code.ico   
++---- startDataCopy.bat   
++---- startDataCopy.ps1   
++-- Start.lnk   
+```
 
 ## How to use it ##
 
@@ -25,23 +25,23 @@ Just execute `Start.lnk / Start` and everything else is done by the program.
 When the program is finished you just need to press enter to leave the program.
 
 **The data will be stored in following stucture** <br />
-<code>
-root <br />
-+-- /bin <br />
-+---- code.ico <br />
-+---- startDataCopy.bat <br />
-+---- startDataCopy.ps1 <br />
-+-- /datacopy <br />
-+---- /[unique key] <br />
-+------- [...] &larr; <br />
-+-- /programs <br />
-+---- /[unique key] <br />
-+------- InstalledPrograms.txt &larr; <br />
-+-- /log-files <br />
-+---- /[unique key] <br />
-+------- robocopyLog.log &larr; <br />
-+-- Start.lnk <br />
-</code>
+```
+root  
++-- /bin  
++---- code.ico  
++---- startDataCopy.bat  
++---- startDataCopy.ps1  
++-- /datacopy  
++---- /[unique key]  
++------- [...] &larr;  
++-- /programs   
++---- /[unique key]  
++------- InstalledPrograms.txt &larr;   
++-- /log-files   
++---- /[unique key]  
++------- robocopyLog.log &larr;  
++-- Start.lnk  
+ ```
 
 `root` will be your designated folder (where you 'installed' this program).
 
